@@ -1,5 +1,3 @@
-const { text } = require("express");
-const { isError } = require("joi");
 const jwt = require("jsonwebtoken");
 const { User } = require("../model");
 const authenticate = async (req, res, next) => {

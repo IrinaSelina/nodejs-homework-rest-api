@@ -1,4 +1,4 @@
-const { UserMethods } = require("../../repositories");
+// const { UserMethods } = require("../../repositories");
 const { User } = require("../../model");
 const bcrypt = require("bcryptjs");
 const register = async (req, res, _next) => {
@@ -12,8 +12,9 @@ const register = async (req, res, _next) => {
     });
   }
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  console.log(hashPassword);
-  const result = await UserMethods.addUser({ email, password: hashPassword });
+  // console.log(hashPassword);
+  // const result = await UserMethods.addUser({ email, password: hashPassword });
+  const result = await User.create({ email, password: hashPassword });
   return res.status(201).json({
     status: "success",
     code: 201,

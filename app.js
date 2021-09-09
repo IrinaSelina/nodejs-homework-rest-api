@@ -1,7 +1,7 @@
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
-// const { NotFound, InternalServerError } = require("http-errors");
+
 const { contactsRouter } = require("./routes/api");
 const { authRouter } = require("./routes/api");
 const app = express();
