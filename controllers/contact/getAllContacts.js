@@ -2,9 +2,10 @@
 const { Contact } = require("../../model");
 
 const getAllContacts = async (req, res, _next) => {
-  const { page = 1, limit = 3 } = req.query;
+  const { page = 1, limit = 4 } = req.query;
   const skip = (page - 1) * limit;
-  console.log(skip);
+  const pages = await Contact.find({ owner: req.user._id });
+
   // const result = await Contact.paginate({ owner: req.user._id }, options);
   const result = await Contact.find(
     { owner: req.user._id },
@@ -14,7 +15,11 @@ const getAllContacts = async (req, res, _next) => {
   return res.json({
     status: "success",
     code: 200,
-    data: result,
+    data: {
+      total: pages.length,
+      pages: Math.ceil(pages.length / limit),
+      result,
+    },
   });
 };
 

@@ -1,6 +1,10 @@
-// const { UserMethods } = require("../../repositories");
 const { User } = require("../../model");
 const bcrypt = require("bcryptjs");
+const fs = require("fs/promises");
+const path = require("path");
+const gravatar = require("gravatar");
+const usersDir = path.join(__dirname, "../../", "public/avatars");
+
 const register = async (req, res, _next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
@@ -11,10 +15,17 @@ const register = async (req, res, _next) => {
       message: "Already register",
     });
   }
+  const defaultAvatar = gravatar.url(email, {}, true);
+
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-  // console.log(hashPassword);
-  // const result = await UserMethods.addUser({ email, password: hashPassword });
-  const result = await User.create({ email, password: hashPassword });
+  const newUser = {
+    email,
+    password: hashPassword,
+    avatarURL: defaultAvatar,
+  };
+  const result = await User.create(newUser);
+  const dirPath = path.join(usersDir, result._id.toString());
+  await fs.mkdir(dirPath);
   return res.status(201).json({
     status: "success",
     code: 201,

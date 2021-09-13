@@ -32,6 +32,12 @@ const updateContactStatus = async (contactId, body) => {
   });
   return result;
 };
+const updateImg = async (contactId, body) => {
+  const result = await Contact.findByIdAndUpdate(contactId, {
+    image: body.image,
+  });
+  return result;
+};
 
 module.exports = {
   listContacts,
@@ -40,4 +46,5 @@ module.exports = {
   addContact,
   updateContact,
   updateContactStatus,
+  updateImg,
 };

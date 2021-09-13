@@ -6,12 +6,14 @@ const {
   validation,
   expressCtrlWrapper,
   authenticate,
+  upload,
 } = require("../../validation");
 
 router.post(
   "/register",
   validation(joiUserSchema),
-  expressCtrlWrapper(auth.register)
+  expressCtrlWrapper(auth.register),
+  upload.single("avatarURL")
 );
 router.post(
   "/login",
@@ -27,6 +29,12 @@ router.get(
   "/current",
   expressCtrlWrapper(authenticate),
   expressCtrlWrapper(auth.currentUser)
+);
+router.patch(
+  "/avatars",
+  expressCtrlWrapper(authenticate),
+  upload.single("avatarURL"),
+  expressCtrlWrapper(auth.updateAvatar)
 );
 
 module.exports = router;

@@ -23,7 +23,7 @@ const userSchema = Schema(
       type: String,
       default: null,
     },
-    image: {
+    avatarURL: {
       type: String,
       default: "",
     },
@@ -40,7 +40,7 @@ const joiUserSchema = Joi.object({
     .required(),
   subscription: Joi.string(),
   token: Joi.string(),
-  image: Joi.string(),
+  avatarURL: Joi.string(),
 });
 const User = model("user", userSchema);
 module.exports = {
