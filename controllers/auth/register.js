@@ -8,6 +8,7 @@ const usersDir = path.join(__dirname, "../../", "public/avatars");
 const register = async (req, res, _next) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+
   if (user) {
     return res.status(409).json({
       status: "error",
@@ -16,7 +17,6 @@ const register = async (req, res, _next) => {
     });
   }
   const defaultAvatar = gravatar.url(email, {}, true);
-
   const hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
   const newUser = {
     email,
@@ -26,10 +26,12 @@ const register = async (req, res, _next) => {
   const result = await User.create(newUser);
   const dirPath = path.join(usersDir, result._id.toString());
   await fs.mkdir(dirPath);
+
   return res.status(201).json({
     status: "success",
     code: 201,
     data: { email, password },
   });
 };
+
 module.exports = register;

@@ -3,6 +3,7 @@ const { Contacts } = require("../../repositories");
 const removeContact = async (req, res, _next) => {
   const { contactId } = req.params;
   const result = await Contacts.removeContact(contactId);
+
   if (!result) {
     return res
       .status(404)
