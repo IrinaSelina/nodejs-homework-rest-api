@@ -13,6 +13,13 @@ const login = async (req, res, _next) => {
       message: "Email or password is wrong",
     });
   }
+  if (!user.verify) {
+    return res.status(400).json({
+      status: "error",
+      code: 400,
+      message: "Your email is not confirmed",
+    });
+  }
 
   const hashPassword = user.password;
   const compareResult = bcrypt.compareSync(password, hashPassword);

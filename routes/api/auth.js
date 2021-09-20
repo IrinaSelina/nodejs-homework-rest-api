@@ -33,12 +33,13 @@ router.get(
   expressCtrlWrapper(authenticate),
   expressCtrlWrapper(auth.currentUser)
 );
-
+router.post("/verify", expressCtrlWrapper(auth.repeatVerifycation));
 router.patch(
   "/avatars",
   expressCtrlWrapper(authenticate),
   upload.single("avatarURL"),
   expressCtrlWrapper(auth.updateAvatar)
 );
+router.get("/verify/:verifyToken", expressCtrlWrapper(auth.verify));
 
 module.exports = router;
